@@ -1,0 +1,9 @@
+to:             #creates MR to every branch from current
+    - dev
+    - staging
+    - master
+projectId: 120 #gitlab project id
+assignee: 72 #user id to assignee MR
+url: '' #gitlab url
+token: ''
+projectDir: '/home/devel003/sda6/energy/get-erp' #for take current branch
