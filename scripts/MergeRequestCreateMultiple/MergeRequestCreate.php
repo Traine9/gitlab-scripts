@@ -17,7 +17,7 @@ $currentBranch = $out[0];
 createMergeRequest(
     $client,
     $currentBranch,
-    ["dev", "staging", "master"],
+    $args['to'],
     "",
     $argv[1],
     72,
