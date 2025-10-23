@@ -24,13 +24,18 @@ createMergeRequest(
     (int) $args['projectId']
 );
 function createMergeRequest(Gitlab\Client $api, $from, $to, $message, $release, $assignee, $projectId) {
+    global $argv;
     $taskNumber = str_replace($to, '', $from);
     $taskNumber = preg_replace('/^-/', '', $taskNumber);
     $taskNumber = strtoupper($taskNumber);
     $title = "$taskNumber $message release $release";
+    $mergeWhenPipelineSucceeds = false;
+    if ($argv[3]) {
+        $mergeWhenPipelineSucceeds = true;
+    }
 
     foreach ($to as $toBranch) {
-        $api->mergeRequests()->create($projectId, $from, $toBranch, $title, ['assignee_id' => (int) $assignee, 'remove_source_branch' => $to === 'master']);
+        $api->mergeRequests()->create($projectId, $from, $toBranch, $title, ['assignee_id' => (int) $assignee, 'remove_source_branch' => $to === 'master', 'merge_when_pipeline_succeeds' => $mergeWhenPipelineSucceeds]);
         print PHP_EOL . "Merge request from $from $toBranch created";
     }
 }
