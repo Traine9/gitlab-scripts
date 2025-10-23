@@ -32,6 +32,7 @@ function createMergeRequest(Gitlab\Client $api, $from, $to, $message, $release, 
     $mergeWhenPipelineSucceeds = false;
     if ($argv[3]) {
         $mergeWhenPipelineSucceeds = true;
+        print PHP_EOL . "auto merge enabled";
     }
 
     foreach ($to as $toBranch) {
