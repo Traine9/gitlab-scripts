@@ -56,11 +56,11 @@ function createMergeRequest(Gitlab\Client $api, $from, $to, $message, $release, 
         // Check if merge request already exists
         $existingMR = findExistingMergeRequest($api, $projectId, $from, $toBranch);
         if ($existingMR) {
-            // Update existing merge request
-            $api->mergeRequests()->merge($projectId, $existingMR['iid'], [
-                'auto_merge' => $mergeWhenPipelineSucceeds
-            ]);
-
+            if ($mergeWhenPipelineSucceeds) {
+                $api->mergeRequests()->merge($projectId, $existingMR['iid'], [
+                    'auto_merge' => $mergeWhenPipelineSucceeds
+                ]);
+            }
             print PHP_EOL . "Updated existing MR from $from to $toBranch (auto-merge: " . ($mergeWhenPipelineSucceeds ? 'ON' : 'OFF') . ")";
         } else {
             // Create new merge request
